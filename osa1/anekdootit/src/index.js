@@ -3,23 +3,26 @@ import ReactDOM from 'react-dom'
 
 
 const App = (props) => {
-  const [selected, setSelected] = useState(0)
-  const [currentVotes, setVotes] = useState(0);
+  const [selected, setSelected] = useState(0);
+  const [selectedVote, setSelectedVote] = useState(0);
+  const [votes, setVotes] = useState([0,0,0,0,0,0]);
   
   const randomAnecdote = () => {
       setSelected(Math.floor(Math.random() * Math.floor(anecdotes.length)));
   }
 
   const voteForAnecdote = () => {
-    const newPoints = {...selected, votes: selected.votes + 1};
-    console.log(newPoints);
-    console.log(selected);
+    const newVotes = [...votes];
+    newVotes[anecdotes.indexOf(selected)] += 1;
+
+    console.log(newVotes);
+    
   }
 
   return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
-      <p>votes: {currentVotes}</p>
+      <p>{props.testAnecdotes[selected].text}</p>
+      <p>votes: {votes[anecdotes.indexOf(selected)]}</p>
       <button onClick={() => randomAnecdote()}>New anecdote</button>
       <button onClick={() => voteForAnecdote()}>Vote</button>
     </div>
@@ -35,7 +38,6 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-const votes = [0,0,0,0,0,0];
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,

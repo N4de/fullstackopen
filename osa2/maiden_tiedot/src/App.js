@@ -6,29 +6,24 @@ import CountryList from './country-list';
 
 const App = () => {
 
-    const [filter, setFilter] = useState('')
     const [countries, setCountries] = useState([]);
+    const [selectedCountries, setSelectedCountries] = useState([]);
 
     useEffect(() => {
-        console.log('effect')
         axios
           .get('https://restcountries.eu/rest/v2/all')
           .then(response => {
             setCountries(response.data)
+            setSelectedCountries(response.data)
           })
       }, [])
 
-    const countriesToShow = filter 
-      ? countries
-      : countries.filter(country => {
-          console.log(filter);
-          console.log(country.name);
-          return country.name.includes(filter);
-      });
-
     const filterCountries = (e) => {
         const newFilter = e.target.value;
-        setFilter(newFilter);
+        
+        const newCountries = countries.filter(country => country.name.includes(newFilter));
+
+        setSelectedCountries(newCountries);
     }
 
     return(
@@ -37,7 +32,7 @@ const App = () => {
                 setFilter={filterCountries}
             />
             <CountryList 
-                countries={countriesToShow}
+                countries={selectedCountries}
             />
         </div>
     );

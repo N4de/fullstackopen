@@ -19,11 +19,15 @@ const App = () => {
       }, [])
 
     const filterCountries = (e) => {
-        const newFilter = e.target.value;
+        const newFilter = e.target.value.toLowerCase();
         
-        const newCountries = countries.filter(country => country.name.includes(newFilter));
+        const newCountries = countries.filter(country => country.name.toLowerCase().includes(newFilter));
 
         setSelectedCountries(newCountries);
+    }
+
+    const selectCountry = (country) => {
+        setSelectedCountries([country]);
     }
 
     return(
@@ -33,6 +37,7 @@ const App = () => {
             />
             <CountryList 
                 countries={selectedCountries}
+                selectCountry={selectCountry}
             />
         </div>
     );

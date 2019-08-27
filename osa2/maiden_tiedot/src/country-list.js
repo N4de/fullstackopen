@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CountryList = ({countries}) => {
+const CountryList = ({countries, selectCountry}) => {
 
     
     const limitedCountries = () => {
@@ -29,7 +29,11 @@ const CountryList = ({countries}) => {
             );
         }
         else {
-            const countryElements = countries.map(country => <p key={country.name}>{country.name}</p>);
+            const countryElements = countries.map(country => (
+                
+                <p key={country.name}>{country.name} <button onClick={() => selectCountry(country)}>show</button></p>
+                
+            ));
             return countryElements
         }
     }

@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import SearchInput from './search-input';
 import CountryList from './country-list';
+import Weather from './weather';
 
 const App = () => {
 
@@ -39,6 +40,9 @@ const App = () => {
                 countries={selectedCountries}
                 selectCountry={selectCountry}
             />
+            {selectedCountries.length === 1 && 
+                <Weather />
+            }
         </div>
     );
 }

@@ -41,7 +41,9 @@ const App = () => {
                 selectCountry={selectCountry}
             />
             {selectedCountries.length === 1 && 
-                <Weather />
+                <Weather 
+                    country={selectedCountries[0]}
+                />
             }
         </div>
     );

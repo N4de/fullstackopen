@@ -7,15 +7,22 @@ const getAll = () => {
 }
 
 const create = newObject => {
-  return axios.post(baseUrl, newObject)
+  const request = axios.post(baseUrl, newObject)
+  return request.then(response => response.data)
 }
 
 const remove = (id) => {
   return axios.delete(`${baseUrl}/${id}`)
 }
 
+const update = (id, updatedContact) => {
+  const request = axios.put(`${baseUrl}/${id}`, updatedContact)
+  return request.then(response => response.data)
+}
+
 export default { 
   getAll: getAll, 
   create: create,
-  remove: remove
+  remove: remove,
+  update: update
 }

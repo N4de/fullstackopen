@@ -43,7 +43,16 @@ const App = () => {
         .then(
           setPersons(persons.concat(newContact))
         );
+    }
+  }
 
+  const deletePerson = (person) => {
+    if (window.confirm(`delete ${person.name} ?`)) {
+      personService
+        .remove(person.id)
+          .then(
+            setPersons(persons.filter(n => n.id !== person.id))
+          );
     }
   }
 
@@ -76,7 +85,10 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <People people={peopleToShow} />
+      <People 
+        people={peopleToShow} 
+        deletePerson={deletePerson}
+      />
     </div>
   )
 

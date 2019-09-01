@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import './index.css'
 
 import personService from './services/persons';
 
 import People from './people';
 import Filter from './filter';
 import PersonForm from './person-form';
+import Notification from './notification';
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setNewFilter ] = useState('');
+  const [notificationMessage, setnotificationMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -39,6 +42,7 @@ const App = () => {
           .then( returnedContact => {
             const newContacts = persons.map(person => person.id !== returnedContact.id ? person : returnedContact)
             setPersons(newContacts);
+            notifyUser(`Number updated for ${newName}`);
           })
       }
     }
@@ -46,18 +50,30 @@ const App = () => {
      
       personService
         .create(newContact)
-        .then(
+        .then(() => {
           setPersons(persons.concat(newContact))
-        );
+          notifyUser(`Added ${newName}`)
+        });
     }
+  }
+
+  const notifyUser = (message) => {
+
+    setnotificationMessage(message);
+
+    setTimeout(() => {
+      setnotificationMessage(null)
+    }, 2000)
   }
 
   const deletePerson = (person) => {
     if (window.confirm(`delete ${person.name} ?`)) {
       personService
         .remove(person.id)
-          .then(
+          .then(() => {
             setPersons(persons.filter(n => n.id !== person.id))
+            notifyUser(`${person.name} removed`);
+          }
           );
     }
   }
@@ -83,8 +99,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <h2>add a new</h2>
+      <Notification 
+        message={notificationMessage}
+      />
       <Filter handleFilterChange={handleFilterChange} />
+      <h2>add a new</h2>
       <PersonForm 
         handleSubmit={handleSubmit}
         handleNameChange={handleNameChange}

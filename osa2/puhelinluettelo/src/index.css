@@ -1,5 +1,4 @@
 .notification {
-    color: green;
     background: lightgrey;
     font-size: 20px;
     border-style: solid;
@@ -7,3 +6,11 @@
     padding: 10px;
     margin-bottom: 10px;
   }
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}

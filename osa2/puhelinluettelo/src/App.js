@@ -13,7 +13,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setNewFilter ] = useState('');
-  const [notificationMessage, setnotificationMessage] = useState(null)
+  const [notificationMessage, setnotificationMessage] = useState(null);
+  const [notificationType, setnotificationType] = useState('');
 
   useEffect(() => {
     personService
@@ -42,8 +43,12 @@ const App = () => {
           .then( returnedContact => {
             const newContacts = persons.map(person => person.id !== returnedContact.id ? person : returnedContact)
             setPersons(newContacts);
-            notifyUser(`Number updated for ${newName}`);
+            notifyUser(`Number updated for ${newName}`, 'green');
           })
+          .catch(() => {
+            notifyUser(`${newName} was already removed`, 'red')
+          }
+          );
       }
     }
     else {
@@ -52,13 +57,14 @@ const App = () => {
         .create(newContact)
         .then(() => {
           setPersons(persons.concat(newContact))
-          notifyUser(`Added ${newName}`)
+          notifyUser(`Added ${newName}`, 'green')
         });
     }
   }
 
-  const notifyUser = (message) => {
+  const notifyUser = (message, type) => {
 
+    setnotificationType(type);
     setnotificationMessage(message);
 
     setTimeout(() => {
@@ -72,7 +78,8 @@ const App = () => {
         .remove(person.id)
           .then(() => {
             setPersons(persons.filter(n => n.id !== person.id))
-            notifyUser(`${person.name} removed`);
+            setnotificationType('success');
+            notifyUser(`${person.name} removed`, 'green');
           }
           );
     }
@@ -101,6 +108,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Notification 
         message={notificationMessage}
+        type={notificationType}
       />
       <Filter handleFilterChange={handleFilterChange} />
       <h2>add a new</h2>

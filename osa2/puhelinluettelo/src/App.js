@@ -39,6 +39,7 @@ const App = () => {
 
     if(duplicatePerson) {
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                         
         personService.update(duplicatePerson.id, newContact)
           .then( returnedContact => {
             const newContacts = persons.map(person => person.id !== returnedContact.id ? person : returnedContact)

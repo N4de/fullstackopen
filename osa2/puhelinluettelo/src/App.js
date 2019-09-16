@@ -56,8 +56,8 @@ const App = () => {
      
       personService
         .create(newContact)
-        .then(() => {
-          setPersons(persons.concat(newContact))
+        .then((res) => {
+          setPersons(persons.concat(res))
           notifyUser(`Added ${newName}`, 'green')
         });
     }
